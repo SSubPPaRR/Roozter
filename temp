@@ -1,0 +1,202 @@
+
+
+                
+                echo ($ListID == $_SESSION['loggedID']) ? "<i class="fas fa-unlock"></i>" : "<i class="fas fa-user-lock"></i>";
+
+<?php
+session_start();
+include 'utilities/db.php';
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Roozter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui.js.css">
+  <link rel="stylesheet" href="w3.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Damion&display=swap">
+  <script src="jquery.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui.js"></script>
+  <script type="text/javascript" src="js/jquery-112.4.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $("#from").datepicker();
+    });
+
+    $(function() {
+      $("#to").datepicker();
+    });
+  </script>
+
+  <style>
+    body,
+    h1 {
+      font-family: "Raleway", sans-serif
+    }
+
+    body,
+    html {
+      height: 100%
+    }
+
+    .bgimg {
+      background-image: url('images/forestbridge.jpg');
+      min-height: 100%;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .logo {
+      font-family: 'Damion', cursive;
+      text-decoration: none;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="modal" style="display: block;">
+
+    <a href="index.php" class="logo w3-display-topleft w3-padding-large w3-xlarge w3-border w3-margin w3-text-white">Roozter</a>
+    <div class="w3-display-middle">
+
+      <div class="row">
+
+        <form class="form-horizontal" action="schedule.php" method="POST">
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Faculty</label><br></br>
+            <div class="col-lg-4">
+              <select class="Faculty_Name" class="form-control">
+                <option>Select Faculty</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+              </select><br></br>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Event</label><br></br>
+            <div class="col-lg-4">
+              <select class="Event_Name" class="form-control">
+                <option>Select event</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+              </select><br></br>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Teacher</label><br></br>
+            <div class="col-lg-4">
+              <select class="Teacher_Lastname" class="form-control">
+                <option>Select teacher</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+              </select><br></br>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Subject</label><br></br>
+            <div class="col-lg-4">
+              <select class="Subject_Name" class="form-control">
+                <option>Select subject</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+                <option value="placeholder">placeholder</option>
+              </select><br></br>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">From</label><br></br>
+            <div class="col-lg-4">
+              <input type="text" name="Start" id="from" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label">To</label><br></br>
+            <div class="col-lg-4">
+              <input type="text" name="End" id="to" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-2 control-label"></label><br></br>
+            <div class="col-lg-4">
+              <input type="submit" name="submit" class="btn btn-primary">
+            </div>
+          </div><br></br>
+
+        </form>
+
+        <div class="w3-white" style="overflow: scroll;">
+
+          <table class="w3-table w3-hoverable w3-striped">
+
+            <thead class="w3-blue">
+              <tr>
+                <th>Date</th>
+                <th>Start time</th>
+                <th>End time</th>
+                <th>Faculty</th>
+                <th>Event</th>
+                <th>Teacher</th>
+                <th>Subject</th>
+                <th>Classroom</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="schedule">
+              <?php
+              $date = date("Y-m-d");
+              if (isset($_POST['submit'])) {
+                $start = $_POST['Start'];
+                $end = $_POST['End'];
+                $faculty = $_POST['Faculty_Name'];
+                $event = $_POST['Event_Name'];
+                $teacher = $_POST['Teacher_Lastname'];
+                $subject = $_POST['Subject_Name'];
+
+                if ($faculty != "" || $event != "" || $teacher != "" || $subject = "") {
+                  $query = "SELECT * FROM schedule WHERE Faculty_Name = '$faculty' or Event_Name = '$event' OR Teacher_Lastname = '$teacher' OR Subject_Name = '$subject' OR Start = 'Start' AND End = '$end'";
+                  $data = mysqli_query($conn, $query) or die('error');
+                  if (mysqli_num_rows($data) > 0) {
+                    while ($row = mysqli_fetch_assoc($data)) {
+                    }
+                  }
+                }
+              }
+              ?>
+
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</body>
+
+</html>
